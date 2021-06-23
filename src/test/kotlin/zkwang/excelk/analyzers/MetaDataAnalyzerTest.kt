@@ -37,4 +37,3 @@ internal class MetaDataAnalyzerTest {
         assertThat(result.columnFieldMappings[1].typeConverter.convert("T")).isEqualTo("T")
     }
 }
-
