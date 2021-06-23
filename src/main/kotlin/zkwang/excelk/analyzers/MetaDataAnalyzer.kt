@@ -8,21 +8,22 @@ import zkwang.excelk.exceptions.SheetNameAnnotationRequiredException
 import zkwang.excelk.models.ColumnFieldMapping
 import zkwang.excelk.models.SheetMapping
 import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.javaField
 
 class MetaDataAnalyzer {
     companion object {
-        fun analyze(sheetMetaData: KClass<*>): SheetMapping {
-            val sheetNameAnnotations = sheetMetaData.annotations.filterIsInstance<SheetName>()
-            val typeName = sheetMetaData.qualifiedName!!
+        fun analyze(modelType: KClass<*>): SheetMapping {
+            val sheetNameAnnotations = modelType.annotations.filterIsInstance<SheetName>()
+            val typeName = modelType.simpleName!!
             if (sheetNameAnnotations.isEmpty()) {
                 throw SheetNameAnnotationRequiredException(typeName)
             }
 
             val sheetNameAnnotation = sheetNameAnnotations.first()
             val columnFieldMappings: MutableList<ColumnFieldMapping> = mutableListOf()
-            for (member in sheetMetaData.declaredMemberProperties) {
+            for (member in modelType.declaredMemberProperties) {
                 val field = member.javaField!!
                 val columnAnnotations = field.annotations.filterIsInstance<Column>()
                 if (columnAnnotations.isEmpty()) {
@@ -39,7 +40,7 @@ class MetaDataAnalyzer {
                 val columnAnnotation = columnAnnotations.first()
                 val converterAnnotation = converterAnnotations.first()
                 val converterInstance =
-                    converterAnnotation.typeConverter.constructors.first().call()
+                    converterAnnotation.typeConverter.createInstance()
                 field.isAccessible = true
                 columnFieldMappings.add(
                     ColumnFieldMapping(
