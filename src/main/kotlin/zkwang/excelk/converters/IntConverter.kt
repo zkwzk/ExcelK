@@ -1,5 +1,6 @@
 package zkwang.excelk.converters
 
-class IntConverter : TypeConverter<Int> {
-    override fun convert(originText: String): Int = originText.toInt()
+class IntConverter : BaseConverter<Int>() {
+    override fun executeConvert(originText: String): Int =
+        originText.toInt()
 }

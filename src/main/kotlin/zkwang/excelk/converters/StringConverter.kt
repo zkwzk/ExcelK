@@ -1,5 +1,5 @@
 package zkwang.excelk.converters
 
-class StringConverter : TypeConverter<String> {
-    override fun convert(originText: String): String = originText
+class StringConverter : BaseConverter<String>() {
+    override fun executeConvert(originText: String): String = originText
 }
