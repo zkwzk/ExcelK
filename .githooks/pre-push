@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+protected_branch=('master' 'release')
+
+# Check if we actually have commits to push
+commits=`git log @{u}..`
+if [ -z "$commits" ]; then
+    exit 0
+fi
+
+current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+
+for i in "${protected_branch[@]}"
+do
+    if [ "$i" == "$current_branch" ] ; then
+      git stash -q --keep-index
+      ./gradlew test -q
+      RESULT=$?
+      if [ $RESULT -ne 0 ]; then
+          echo "build failed, please check details in 'build/reports'"
+          exit 1
+      fi
+      git stash pop -q
+    fi
+done
+
+exit 0
