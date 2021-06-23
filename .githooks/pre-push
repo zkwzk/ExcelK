@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-protected_branch=('master' 'release')
+protected_branch=('main' 'release')
 
 # Check if we actually have commits to push
 commits=`git log @{u}..`
@@ -15,12 +15,12 @@ do
     if [ "$i" == "$current_branch" ] ; then
       git stash -q --keep-index
       ./gradlew test -q
+      git stash pop -q
       RESULT=$?
       if [ $RESULT -ne 0 ]; then
           echo "build failed, please check details in 'build/reports'"
           exit 1
       fi
-      git stash pop -q
     fi
 done
 
