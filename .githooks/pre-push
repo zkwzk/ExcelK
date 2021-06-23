@@ -13,10 +13,10 @@ current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 for i in "${protected_branch[@]}"
 do
     if [ "$i" == "$current_branch" ] ; then
-      git stash -q --keep-index
+      git stash
       ./gradlew test -q
-      git stash pop -q
       RESULT=$?
+      git stash pop
       if [ $RESULT -ne 0 ]; then
           echo "build failed, please check details in 'build/reports'"
           exit 1
