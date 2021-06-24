@@ -29,6 +29,7 @@ internal class MetaDataAnalyzerTest {
         val instance = ASheet::class.createInstance()
         assertThat(result).isNotNull
         assertThat(result.dataStartRowNo).isEqualTo(3)
+        assertThat(result.dataEndRowNo).isEqualTo(-1)
         assertThat(result.sheetName).isEqualTo("SheetName")
         assertThat(result.columnFieldMappings).hasSize(2)
         val aIntColumnFieldMapping = result.columnFieldMappings[0]

@@ -54,6 +54,7 @@ class MetaDataAnalyzer {
             return SheetMapping(
                 sheetName = sheetNameAnnotation.sheetName,
                 dataStartRowNo = sheetNameAnnotation.startRow,
+                dataEndRowNo = sheetNameAnnotation.endRow,
                 columnFieldMappings = columnFieldMappings
             )
         }
