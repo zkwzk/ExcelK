@@ -1,10 +1,10 @@
 package zkwang.excelk.models
 
 import zkwang.excelk.converters.TypeConverter
-import java.lang.reflect.Field
+import kotlin.reflect.KMutableProperty
 
 data class ColumnFieldMapping(
     val columnName: String,
-    val field: Field,
+    val field: KMutableProperty<*>,
     val typeConverter: TypeConverter<*>
 )

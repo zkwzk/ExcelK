@@ -8,9 +8,11 @@ import zkwang.excelk.exceptions.SheetNameAnnotationRequiredException
 import zkwang.excelk.models.ColumnFieldMapping
 import zkwang.excelk.models.SheetMapping
 import kotlin.reflect.KClass
+import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.jvm.javaField
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.memberProperties
 
 class MetaDataAnalyzer {
     companion object {
@@ -23,29 +25,22 @@ class MetaDataAnalyzer {
 
             val sheetNameAnnotation = sheetNameAnnotations.first()
             val columnFieldMappings: MutableList<ColumnFieldMapping> = mutableListOf()
-            for (member in modelType.declaredMemberProperties) {
-                val field = member.javaField!!
-                val columnAnnotations = field.annotations.filterIsInstance<Column>()
-                if (columnAnnotations.isEmpty()) {
-                    continue
-                }
+            for (member in modelType.declaredMemberProperties.filterIsInstance<KMutableProperty<*>>()) {
+                val columnAnnotation = member.findAnnotation<Column>() ?: continue
 
-                val converterAnnotations = field.annotations.filterIsInstance<Converter>()
-                val fieldName = field.name
+                val converterAnnotation = member.findAnnotation<Converter>()
+                val fieldName = member.name
 
-                if (converterAnnotations.isEmpty()) {
+                if (converterAnnotation == null) {
                     throw ConverterAnnotationRequiredException(typeName, fieldName)
                 }
 
-                val columnAnnotation = columnAnnotations.first()
-                val converterAnnotation = converterAnnotations.first()
                 val converterInstance =
                     converterAnnotation.typeConverter.createInstance()
-                field.isAccessible = true
                 columnFieldMappings.add(
                     ColumnFieldMapping(
                         columnName = columnAnnotation.columnName,
-                        field = field,
+                        field = member,
                         typeConverter = converterInstance
                     )
                 )
