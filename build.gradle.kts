@@ -15,6 +15,7 @@ java.targetCompatibility = JavaVersion.VERSION_1_8
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation(kotlin("reflect"))
+    implementation("org.apache.poi:poi-ooxml:5.0.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
     testImplementation("org.assertj:assertj-core:3.19.0")
 }
