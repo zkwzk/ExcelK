@@ -12,11 +12,10 @@ import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.memberProperties
 
 class MetaDataAnalyzer {
     companion object {
-        fun analyze(modelType: KClass<*>): SheetMapping {
+        inline fun <reified T : Any> analyze(modelType: KClass<T>): SheetMapping<T> {
             val sheetNameAnnotations = modelType.annotations.filterIsInstance<SheetName>()
             val typeName = modelType.simpleName!!
             if (sheetNameAnnotations.isEmpty()) {
@@ -47,6 +46,7 @@ class MetaDataAnalyzer {
             }
 
             return SheetMapping(
+                modelType = modelType,
                 sheetName = sheetNameAnnotation.sheetName,
                 dataStartRowNo = sheetNameAnnotation.startRow,
                 dataEndRowNo = sheetNameAnnotation.endRow,

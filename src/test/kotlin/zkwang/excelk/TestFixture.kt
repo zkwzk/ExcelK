@@ -40,6 +40,17 @@ internal class ASheetWithOnlyColumnAnnotation(
     var AString: String = ""
 )
 
+@SheetName("Sheet1")
+internal class HelloWorldDAO(
+    @Column("A")
+    @Converter(StringConverter::class)
+    var AString: String = "",
+
+    @Column("B")
+    @Converter(IntConverter::class)
+    var AInt: Int = 0
+)
+
 @SheetName("SheetName")
 internal class ASheetWithPropertyNoColumnAttribute(
     @Column("A")

@@ -1,6 +1,9 @@
 package zkwang.excelk.models
 
-data class SheetMapping(
+import kotlin.reflect.KClass
+
+data class SheetMapping<T: Any>(
+    val modelType: KClass<T>,
     val sheetName: String,
     val dataStartRowNo: Int,
     val dataEndRowNo: Int,
