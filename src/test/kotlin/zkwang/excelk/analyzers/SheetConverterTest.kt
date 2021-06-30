@@ -21,6 +21,7 @@ internal class SheetConverterTest {
         assertThat(result[199].modelInstance.AInt).isEqualTo(1)
         assertThat(result[199].modelInstance.AString).isEqualTo("23644f0e-ad36-4859-be57-b440420e5b44")
         assertThat(result[199].isSuccess).isTrue
+        workbook.close()
     }
 
     @Test

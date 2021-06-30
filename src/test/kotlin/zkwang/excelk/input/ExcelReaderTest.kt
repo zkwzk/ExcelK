@@ -15,6 +15,7 @@ internal class ExcelReaderTest {
         val workbook = ExcelReader.read(path.toString())
         assertThat(workbook).isNotNull
         assertThat(workbook).isInstanceOf(HSSFWorkbook::class.java)
+        workbook.close()
     }
 
     @Test
@@ -23,6 +24,7 @@ internal class ExcelReaderTest {
         val workbook = ExcelReader.read(path.toString())
         assertThat(workbook).isNotNull
         assertThat(workbook).isInstanceOf(XSSFWorkbook::class.java)
+        workbook.close()
     }
 
     @Test
