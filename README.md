@@ -1,5 +1,5 @@
 # ExcelK
-ExcelK is a library writen by Kotlin which provide a declaration way for extracting the data from an excel to a DAO model
+ExcelK is a library writen by Kotlin which provide a declaration way for extracting the data from an excel to a list of entity object
 
 ## Usage
 Let say we have below Excel file
@@ -13,10 +13,10 @@ Let say we have below Excel file
 |3|ccc|21|A3|
 |4|ddd|22|A4|
 
-you just need a class as the DAO model with some annotations to indicate the mapping between the Excel column and the property of the class:
+you just need a class as the entity with some annotations to indicate the mapping between the Excel column and the property of the class:
 ```kotlin
 @SheetName("Sheet1")
-class HelloWorldDAO(
+class HelloWorldEntity(
     @Column("A")
     @Converter(IntConverter::class)
     var id:  Int = 0,
@@ -42,9 +42,22 @@ val sheet = workbook.getSheet(sheetMapping.sheetName)
 val result = SheetConverter.convert(sheet, sheetMapping)
 ```
 
-Then you will get a list which including the converted DAO, as well as the error messages during the converting
+Please note that for each of the property in the entity should be mutable and should have a default value, otherwise it will be ignored
 
-After you got that DAO list, you can convert it to a few different formats like JSON or SQL script
+Then you will get a list of `RowConvertResult<T>` which including the converted entity, as well as the error messages during the converting
+
+```kotlin
+data class RowConvertResult<T: Any>(
+    val modelInstance: T,
+    val rowNumber: Int,
+    val columnConvertResults: Map<String, ColumnConvertResult>,
+    val errorMsgMap: Map<String, String>
+) {
+    val isSuccess: Boolean = columnConvertResults.all { it.value.isSuccess }
+}
+```
+
+After you got that entiy list, you can convert it to a few different formats like JSON or SQL script
 
 ## For Developer
 ### Config the pre-push hook
