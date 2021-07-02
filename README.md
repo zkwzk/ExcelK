@@ -16,7 +16,7 @@ Let say we have below Excel file
 you just need a class as the entity with some annotations to indicate the mapping between the Excel column and the property of the class:
 ```kotlin
 @SheetName("Sheet1")
-class HelloWorldEntity(
+data class HelloWorldEntity(
     @Column("A")
     @Converter(IntConverter::class)
     var id:  Int,
