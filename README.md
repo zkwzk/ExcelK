@@ -19,19 +19,19 @@ you just need a class as the entity with some annotations to indicate the mappin
 class HelloWorldEntity(
     @Column("A")
     @Converter(IntConverter::class)
-    var id:  Int = 0,
+    var id:  Int,
 
     @Column("B")
     @Converter(StringConverter::class)
-    var name: String = "",
+    var name: String,
 
     @Column("C")
     @Converter(IntConverter::class)
-    var age: Int = 0,
+    var age: Int,
 
     @Column("D")
     @Converter(StringConverter::class)
-    var className: String = "",
+    var className: String,
 )
 ```
 with a few lines of code
@@ -42,7 +42,7 @@ val sheet = workbook.getSheet(sheetMapping.sheetName)
 val result = SheetConverter.convert(sheet, sheetMapping)
 ```
 
-Please note that for each of the property in the entity should be mutable and should have a default value, otherwise it will be ignored
+Please note that for each of the property in the entity should be mutable, and marked with a `@SheetName` annotation or `@NoArg` annotation, otherwise it will be ignored
 
 Then you will get a list of `RowConvertResult<T>` which including the converted entity, as well as the error messages during the converting
 
@@ -57,7 +57,7 @@ data class RowConvertResult<T: Any>(
 }
 ```
 
-After you got that entiy list, you can convert it to a few different formats like JSON or SQL script
+After you got that entity list, you can convert it to a few different formats like JSON or SQL script
 
 ## For Developer
 ### Config the pre-push hook
