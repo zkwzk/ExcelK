@@ -37,7 +37,7 @@ class HelloWorldEntity(
 with a few lines of code
 ```kotlin
 val workbook = ExcelReader.read("src/test/resources/helloworld.xls")
-val sheetMapping = MetaDataAnalyzer.analyze(HelloWorldDAO::class)
+val sheetMapping = MetaDataAnalyzer.analyze(HelloWorldEntity::class)
 val sheet = workbook.getSheet(sheetMapping.sheetName)
 val result = SheetConverter.convert(sheet, sheetMapping)
 ```
