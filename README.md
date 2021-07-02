@@ -42,7 +42,7 @@ val sheet = workbook.getSheet(sheetMapping.sheetName)
 val result = SheetConverter.convert(sheet, sheetMapping)
 ```
 
-Please note that for each of the property in the entity should be mutable, and marked with a `@SheetName` annotation or `@NoArg` annotation, otherwise it will be ignored
+Please note that the entity class should be marked with `@SheetName` annotation, for each of the property in the entity should be mutable,  otherwise it will be ignored
 
 Then you will get a list of `RowConvertResult<T>` which including the converted entity, as well as the error messages during the converting
 
