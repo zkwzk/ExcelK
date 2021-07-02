@@ -11,13 +11,12 @@ import zkwang.excelk.converters.IntConverter
 import zkwang.excelk.converters.StringConverter
 import zkwang.excelk.exceptions.ConverterAnnotationRequiredException
 import zkwang.excelk.exceptions.SheetNameAnnotationRequiredException
-import kotlin.reflect.full.createInstance
 
 internal class MetaDataAnalyzerTest {
     @Test
     fun `should analyze meta data mapping successfully`() {
         val result = MetaDataAnalyzer.analyze(ASheet::class)
-        val instance = ASheet::class.createInstance()
+        val instance = result.modelType.java.getDeclaredConstructor().newInstance()
         assertThat(result).isNotNull
         assertThat(result.dataStartRowNo).isEqualTo(3)
         assertThat(result.dataEndRowNo).isEqualTo(-1)

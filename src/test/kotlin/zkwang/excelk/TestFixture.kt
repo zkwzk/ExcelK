@@ -2,6 +2,7 @@ package zkwang.excelk
 
 import zkwang.excelk.annotations.Column
 import zkwang.excelk.annotations.Converter
+import zkwang.excelk.annotations.NoArg
 import zkwang.excelk.annotations.SheetName
 import zkwang.excelk.converters.IntConverter
 import zkwang.excelk.converters.StringConverter
@@ -13,61 +14,61 @@ import kotlin.reflect.KMutableProperty
 internal class ASheet(
     @Column("A")
     @Converter(IntConverter::class)
-    var aInt: Int? = null,
+    var aInt: Int?,
     @Column("B")
     @Converter(StringConverter::class)
-    var aString: String? = null
+    var aString: String?
 )
 
+@NoArg
 internal class ASheetWithoutSheetNameAnnotation(
     @Column("A")
     @Converter(IntConverter::class)
-    var aInt: Int = 0,
+    var aInt: Int,
 
     @Column("B")
     @Converter(StringConverter::class)
-    var aString: String = ""
+    var aString: String
 )
-
 
 @SheetName("SheetName")
 internal class ASheetWithOnlyColumnAnnotation(
     @Column("A")
     @Converter(IntConverter::class)
-    var AInt: Int = 0,
+    var AInt: Int,
 
     @Column("B")
-    var AString: String = ""
+    var AString: String
 )
 
 @SheetName("Sheet1")
 internal class HelloWorldDAO(
     @Column("A")
     @Converter(StringConverter::class)
-    var AString: String = "",
+    var AString: String,
 
     @Column("B")
     @Converter(IntConverter::class)
-    var AInt: Int = 0
+    var AInt: Int
 )
 
 @SheetName("SheetName")
 internal class ASheetWithPropertyNoColumnAttribute(
     @Column("A")
     @Converter(IntConverter::class)
-    var aInt: Int = 0,
+    var aInt: Int,
 
     @Column("B")
     @Converter(StringConverter::class)
-    var aString: String = "",
+    var aString: String,
 
-    var anotherInt: Int = 0,
-    var anotherString: String = ""
+    var anotherInt: Int,
+    var anotherString: String
 )
 
 fun getColumnContext(filed: KMutableProperty<*>) = ColumnContext("A", filed)
 fun getRowContext() = RowContext(
-    modelInstance = ASheet(),
+    modelInstance = ASheet::class.java.getDeclaredConstructor().newInstance(),
     rowNumber = 22,
     columnValueMap = mutableMapOf(),
     errorMessageMap = mutableMapOf()

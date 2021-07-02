@@ -29,5 +29,5 @@ plugins {
 }
 
 noArg {
-    annotation("com.my.Annotation")
+    annotations("zkwang.excelk.annotations.NoArg", "zkwang.excelk.annotations.SheetName")
 }

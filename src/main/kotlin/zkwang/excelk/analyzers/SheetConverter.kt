@@ -8,8 +8,6 @@ import zkwang.excelk.models.RowContext
 import zkwang.excelk.models.RowConvertResult
 import zkwang.excelk.models.SheetMapping
 import zkwang.excelk.utils.cast
-import kotlin.reflect.full.createInstance
-
 
 class SheetConverter {
     companion object {
@@ -22,7 +20,7 @@ class SheetConverter {
             val convertResult: MutableList<RowConvertResult<T>> = mutableListOf()
             for (rowIndex in startRowIndex..lastRowIndex) {
                 val rowContext = RowContext(
-                    modelInstance = sheetMapping.modelType.createInstance(),
+                    modelInstance = sheetMapping.modelType.java.getDeclaredConstructor().newInstance(),
                     rowNumber = rowIndex + 1,
                     columnValueMap = mutableMapOf(),
                     errorMessageMap = mutableMapOf()
