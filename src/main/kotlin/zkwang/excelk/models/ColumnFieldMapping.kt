@@ -6,5 +6,6 @@ import kotlin.reflect.KMutableProperty
 data class ColumnFieldMapping(
     val columnName: String,
     val field: KMutableProperty<*>,
-    val typeConverter: TypeConverter<*>
+    val typeConverter: TypeConverter<*>,
+    val dependsOnColumns: List<String>
 )

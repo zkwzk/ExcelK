@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import zkwang.excelk.ASheet
+import zkwang.excelk.ASheetWithDependsOnColumn
 import zkwang.excelk.ASheetWithOnlyColumnAnnotation
 import zkwang.excelk.ASheetWithPropertyNoColumnAttribute
 import zkwang.excelk.ASheetWithoutSheetNameAnnotation
@@ -66,5 +67,12 @@ internal class MetaDataAnalyzerTest {
         assertThat(aIntColumnFieldMapping.field.name).isEqualTo("aInt")
         val aStringColumnFieldMapping = result.columnFieldMappings[1]
         assertThat(aStringColumnFieldMapping.field.name).isEqualTo("aString")
+    }
+
+    @Test
+    fun `should return the SheetMapping in the order of topological sorting`() {
+        val result = MetaDataAnalyzer.analyze(ASheetWithDependsOnColumn::class)
+        assertThat(result.columnFieldMappings).hasSize(4)
+        assertThat(result.columnFieldMappings.map{it.columnName}.toList()).containsExactly("C", "D", "B", "A")
     }
 }

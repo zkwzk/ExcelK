@@ -17,3 +17,7 @@ annotation class SheetName(val sheetName: String, val startRow: Int = 2, val end
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.PROPERTY)
 annotation class Converter(val typeConverter: KClass<out TypeConverter<*>>)
+
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.PROPERTY)
+annotation class DependsOnColumns(val columnNames: Array<String>)

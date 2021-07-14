@@ -2,6 +2,7 @@ package zkwang.excelk
 
 import zkwang.excelk.annotations.Column
 import zkwang.excelk.annotations.Converter
+import zkwang.excelk.annotations.DependsOnColumns
 import zkwang.excelk.annotations.NoArg
 import zkwang.excelk.annotations.SheetName
 import zkwang.excelk.converters.IntConverter
@@ -64,6 +65,28 @@ internal class ASheetWithPropertyNoColumnAttribute(
 
     var anotherInt: Int,
     var anotherString: String
+)
+
+
+@SheetName("SheetName")
+internal class ASheetWithDependsOnColumn(
+    @Column("A")
+    @DependsOnColumns(["B", "C"])
+    @Converter(IntConverter::class)
+    var aInt: Int,
+    @Column("B")
+    @DependsOnColumns(["D"])
+    @Converter(StringConverter::class)
+    var aString: String,
+
+    @Column("C")
+    @Converter(StringConverter::class)
+    var anotherString: String,
+
+    @Column("D")
+    @Converter(IntConverter::class)
+    @DependsOnColumns(["C"])
+    var anotherInt: Int
 )
 
 fun getColumnContext(filed: KMutableProperty<*>) = ColumnContext("A", filed)
